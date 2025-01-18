@@ -1,4 +1,4 @@
-# victron_ev_charger_in_home_assistant
+# Victron EV Charger Dashboard with controls in Home Assistant
 Description and example of the MQTT code and dashboard to get the stats showing and having control of the EV charging.  
 
 Firstly credits to SmartyVan, I had some basic Home Assistant MQTT integration setup but his video and code is next level..!  
