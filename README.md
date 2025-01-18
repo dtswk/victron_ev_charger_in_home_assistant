@@ -3,7 +3,7 @@ Description and example of the MQTT code and dashboard to get the stats showing 
 
 Firstly credits to SmartyVan, I had some basic Home Assistant MQTT integration setup but his video and code is next level..!  
 
-https://www.youtube.com/watch?v=hx8UjOLD1tw
+https://www.youtube.com/watch?v=lvTGsOFsy8o
 
 To get this working I thought would provide the steps as it wasn't straight forward  :-)
 
