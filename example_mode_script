@@ -1,0 +1,43 @@
+sequence:
+  - choose:
+      - conditions:
+          - condition: state
+            entity_id: input_select.ev_charger_mode
+            state: Manual
+        sequence:
+          - action: mqtt.publish
+            metadata: {}
+            data:
+              evaluate_payload: false
+              qos: "0"
+              retain: false
+              topic: victron/W/<device_id>/evcharger/40/Mode
+              payload: "{\"value\": 0 }"
+      - conditions:
+          - condition: state
+            entity_id: input_select.ev_charger_mode
+            state: Auto
+        sequence:
+          - action: mqtt.publish
+            metadata: {}
+            data:
+              evaluate_payload: false
+              qos: "0"
+              retain: false
+              topic: victron/W/<device_id>/evcharger/40/Mode
+              payload: "{\"value\": 1 }"
+      - conditions:
+          - condition: state
+            entity_id: input_select.ev_charger_mode
+            state: Schedule
+        sequence:
+          - action: mqtt.publish
+            metadata: {}
+            data:
+              evaluate_payload: false
+              qos: "0"
+              retain: false
+              topic: victron/W/<device_id>/evcharger/40/Mode
+              payload: "{\"value\": 2 }"
+alias: EV Charger Change Mode
+description: ""
