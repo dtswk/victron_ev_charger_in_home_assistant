@@ -27,4 +27,8 @@ https://www.victronenergy.com/media/pg/EV_Charging_Station/en/index-en.html
 
 You should now be able to see the EV Charger in the GX (and VRM portal) and from the EV Charger see stats like solar, battery etc
 
+Please use my example code and you should be able to get a dashboard with controls up and running.
+
+![image](https://github.com/user-attachments/assets/c2bb7ca7-3003-4fdf-8ff1-bf2fd67b9a4b)
+
 Matt
