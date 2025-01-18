@@ -25,6 +25,10 @@ Configure the GX device comms and also include the GX in the whitelist.
 Check comms if this doesn't pass you must resolve that first
 https://www.victronenergy.com/media/pg/EV_Charging_Station/en/index-en.html
 
+Solar forecast
+If you would like to include the solar forecast you can refer to this.  :-)
+https://github.com/BJReplay/ha-solcast-solar
+
 You should now be able to see the EV Charger in the GX (and VRM portal) and from the EV Charger see stats like solar, battery etc
 
 Please use my example code and you should be able to get a dashboard with controls up and running.
