@@ -1,0 +1,11 @@
+sequence:
+  - action: mqtt.publish
+    metadata: {}
+    data:
+      evaluate_payload: false
+      qos: "0"
+      retain: false
+      topic: victron/W/<device_id>/evcharger/40/StartStop
+      payload: "{\"value\": 1 }"
+alias: Start EV Charger
+description: ""
