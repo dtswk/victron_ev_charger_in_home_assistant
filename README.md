@@ -33,6 +33,7 @@ You should now be able to see the EV Charger in the GX (and VRM portal) and from
 
 Please use my example code and you should be able to get a dashboard with controls up and running.
 
-![image](https://github.com/user-attachments/assets/c2bb7ca7-3003-4fdf-8ff1-bf2fd67b9a4b)
+![Screenshot 2025-01-18 215139](https://github.com/user-attachments/assets/710a65e4-ef8f-4646-8ca6-e5593754cc7e)
+
 
 Matt
