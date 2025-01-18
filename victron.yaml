@@ -1,0 +1,318 @@
+mqtt:
+  sensor:
+    # Battery percentage
+    - state_topic: "victron/N/<device_id>/system/0/Batteries"
+      name: "Battery Percent"
+      unique_id: "battery_percent"
+      device_class: battery
+      state_class: measurement
+      value_template: "{{ value_json.value[0].soc | round(0) }}"
+      unit_of_measurement: "%"
+      device:
+        {
+          identifiers: ["Cerbo GX"],
+          manufacturer: "Victron Energy",
+          model: "Cerbo GX",
+          name: "Cerbo GX",
+        }
+
+    # AC Loads
+    - state_topic: "victron/N/<device_id>/system/0/Ac/Consumption/L1/Power"
+      name: "AC Loads"
+      unique_id: "ac_loads"
+      device_class: power
+      state_class: measurement
+      value_template: "{{ value_json.value }}"
+      unit_of_measurement: "W"
+      icon: mdi:power-socket-uk
+      device:
+        {
+          identifiers: ["Cerbo GX"],
+          manufacturer: "Victron Energy",
+          model: "Cerbo GX",
+          name: "Cerbo GX",
+        }
+
+    # Net Solar Production
+    - name: "Net Solar Production"
+      unique_id: "current_solar_production"
+      device_class: power
+      state_topic: "victron/N/<device_id>/system/0/Dc/Pv/Power"
+      value_template: "{{ value_json.value|float(0)|round(0) }}"
+      unit_of_measurement: "W"
+      icon: mdi:solar-power
+      device:
+        {
+          identifiers: ["Cerbo GX"],
+          manufacturer: "Victron Energy",
+          model: "Cerbo GX",
+          name: "Cerbo GX",
+        }
+
+
+    # Current state of your charge controller
+    - name: "Solar Charger State"
+      unique_id: "solar_charger_state"
+      state_topic: "victron/N/<device_id>/solarcharger/289/State"
+      value_template: >
+        {% if value_json.value == 0 %}
+          Off
+        {% elif value_json.value == 2 %}
+          Fault
+        {% elif value_json.value == 3 %}
+          Bulk
+        {% elif value_json.value == 4 %}
+          Absorption
+        {% elif value_json.value == 5 %}
+          Float
+        {% elif value_json.value == 6 %}
+          Storage
+        {% elif value_json.value == 7 %}
+          Equalize
+        {% else %}
+          Error - No Data
+        {% endif %}
+        device: {
+        identifiers: [
+          "Cerbo GX"
+        ],
+        manufacturer: "Victron Energy",
+        model: "Cerbo GX",
+        name: "Cerbo GX"}
+
+    # Estimated Time until battery is empty based on current load.
+    # These calculations were copied from victrons code to mimic how they display it
+    - name: "Battery Remaining"
+      unique_id: "battery_remaining"
+      icon: mdi:timer-sand
+      state_topic: "victron/N/<device_id>/battery/288/TimeToGo"
+      value_template: >
+        {% if value_json is none or value_json.value is none %}
+          Endless
+        {% else %}
+          {% set seconds = value_json.value | default(0) | round(0) | int %}
+          {% set hours = (seconds / 3600) | round(0, 'floor') | int %}
+          {% set minutes = (seconds / 60) | round(0, 'floor') | int %}
+          {% if hours > 0 %}
+            {{ hours }} Hours
+          {% elif minutes > 0 %}
+            {{ minutes }} Minutes
+          {% else %}
+            < 1 Minute
+          {% endif %}
+        {% endif %}
+      device:
+        {
+          identifiers: ["Cerbo GX"],
+          manufacturer: "Victron Energy",
+          model: "Cerbo GX",
+          name: "Cerbo GX",
+        }
+
+
+
+    #================
+    # EV Charger
+    #================
+
+    # L1 realtime load
+    - state_topic: "victron/N/<device_id>/evcharger/40/Ac/L1/Power"
+      name: "EV Charger Load"
+      unique_id: "ev_charger_loads"
+      device_class: power
+      state_class: measurement
+      value_template: "{{ value_json.value }}"
+      unit_of_measurement: "W"
+      icon: mdi:power-socket-uk
+      device:
+        {
+          identifiers: ["Cerbo GX"],
+          manufacturer: "Victron Energy",
+          model: "Cerbo GX",
+          name: "Cerbo GX",
+        }
+
+    # Realtime current
+    - state_topic: "victron/N/<device_id>/evcharger/40/Current"
+      name: "EV Charger Realtime Current"
+      unique_id: "ev_charger_current"
+      device_class: power
+      state_class: measurement
+      value_template: "{{ value_json.value }}"
+      unit_of_measurement: "A"
+      icon: mdi:power-socket-uk
+      device:
+        {
+          identifiers: ["Cerbo GX"],
+          manufacturer: "Victron Energy",
+          model: "Cerbo GX",
+          name: "Cerbo GX",
+        }
+
+    # Charging Time
+    - state_topic: "victron/N/<device_id>/evcharger/40/ChargingTime"
+      name: "EV Charger Charge Time"
+      unique_id: "ev_charger_time"
+      icon: mdi:timer-sand
+      value_template: >
+        {% set seconds = value_json.value | round(0) | int %}
+        {% set hours = (seconds / 3600) | round(1) | float %}
+        {% set minutes = ( seconds / 60) | round(0, 'floor') | int %}
+
+        {% if hours > 1 %}
+          {{hours}} Hours
+        {% elif minutes > 0 %}
+          {{minutes}} Minutes
+        {% endif %}
+      device:
+        {
+          identifiers: ["Cerbo GX"],
+          manufacturer: "Victron Energy",
+          model: "Cerbo GX",
+          name: "Cerbo GX",
+        }
+
+    # EV Consumed Power
+    - state_topic: "victron/N/<device_id>/evcharger/40/Ac/Energy/Forward"
+      name: "EV Charger Consumed"
+      unique_id: "ev_charger_consumed_power"
+      device_class: power
+      state_class: measurement
+      value_template: "{{ value_json.value }}"
+      unit_of_measurement: "kWh"
+      icon: mdi:power-socket-uk
+      device:
+        {
+          identifiers: ["Cerbo GX"],
+          manufacturer: "Victron Energy",
+          model: "Cerbo GX",
+          name: "Cerbo GX",
+        }
+
+    # EV mode
+    - name: "EV Charger Mode"
+      unique_id: "ev_charger_mode"
+      state_topic: "victron/N/<device_id>/evcharger/40/Mode"
+      value_template: >
+        {% if value_json.value == 0 %}
+          Manual
+        {% elif value_json.value == 1 %}
+          Auto
+        {% elif value_json.value == 2 %}
+          Scheduled
+        {% else %}
+          Error - No Data
+        {% endif %}
+      device:
+        {
+          identifiers: ["Cerbo GX"],
+          manufacturer: "Victron Energy",
+          model: "Cerbo GX",
+          name: "Cerbo GX",
+        }
+
+    # Current state of ev charge controller
+    - name: "EV Charger State"
+      unique_id: "ev_charger_state"
+      state_topic: "victron/N/<device_id>/evcharger/40/Status"
+      value_template: >
+        {% if value_json.value == 0 %}
+          Disconnected
+        {% elif value_json.value == 1 %}
+          Connected
+        {% elif value_json.value == 2 %}
+          Charging
+        {% elif value_json.value == 3 %}
+          Charged
+        {% elif value_json.value == 4 %}
+          Waiting for sun
+        {% elif value_json.value == 5 %}
+          Waiting for RFID
+        {% elif value_json.value == 6 %}
+          Waiting for start
+        {% elif value_json.value == 7 %}
+          Low SOC
+        {% elif value_json.value == 8 %}
+          Ground test error
+        {% elif value_json.value == 9 %}
+          Welded contacts test error
+        {% elif value_json.value == 10 %}
+          CP input test error (shorted)
+        {% elif value_json.value == 11 %}
+          Residual current detected
+        {% elif value_json.value == 12 %}
+          Undervoltage detected
+        {% elif value_json.value == 13 %}
+          Overvoltage detected
+        {% elif value_json.value == 14 %}
+          Overheating detected
+        {% elif value_json.value == 15 %}
+          Reserved
+        {% elif value_json.value == 16 %}
+          Reserved
+        {% elif value_json.value == 17 %}
+          Reserved
+        {% elif value_json.value == 18 %}
+          Reserved
+        {% elif value_json.value == 19 %}
+          Reserved
+        {% elif value_json.value == 20 %}
+          Charging limit
+        {% elif value_json.value == 21 %}
+          Start charging
+        {% elif value_json.value == 22 %}
+          Switching to 3 phase
+        {% elif value_json.value == 23 %}
+          Switching to 1 phase
+        {% elif value_json.value == 24 %}
+          Stop charging
+        {% else %}
+          Error - No Data
+        {% endif %}
+      device:
+        {
+          identifiers: ["Cerbo GX"],
+          manufacturer: "Victron Energy",
+          model: "Cerbo GX",
+          name: "Cerbo GX",
+        }
+
+  #================
+  # EV Controls
+  #================
+  number:
+    - name: "EV Charger Set Current"
+      unique_id: "ev_charger_set_current"
+      command_topic: "victron/W/<device_id>/evcharger/40/SetCurrent"
+      command_template: '{"value": {{ value | int }} }'
+      state_topic: "victron/N/<device_id>/evcharger/40/SetCurrent"
+      value_template: "{{ value_json.value }}"
+      min: 6
+      max: 30
+      step: 1
+      device:
+        {
+          identifiers: ["Cerbo GX"],
+          manufacturer: "Victron Energy",
+          model: "Cerbo GX",
+          name: "Cerbo GX",
+        }
+
+  switch:
+    - name: "EV Charger Start Stop"
+      unique_id: "ev_charger_start_stop"
+      state_topic: "victron/N/<device_id>/evcharger/40/StartStop"
+      command_topic: "victron/W/<device_id>/evcharger/40/StartStop"
+      value_template: "{{ value_json.value }}"
+      state_on: 1
+      state_off: 0
+      payload_on: '{"value":1}'
+      payload_off: '{"value":0}'
+      optimistic: false
+      device:
+        {
+          identifiers: ["Cerbo GX"],
+          manufacturer: "Victron Energy",
+          model: "Cerbo GX",
+          name: "Cerbo GX",
+        }
