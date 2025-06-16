@@ -176,8 +176,8 @@ mqtt:
     - state_topic: "victron/N/<device_id>/evcharger/40/Ac/Energy/Forward"
       name: "EV Charger Consumed"
       unique_id: "ev_charger_consumed_power"
-      device_class: power
-      state_class: measurement
+      device_class: energy
+      state_class: total
       value_template: "{{ value_json.value }}"
       unit_of_measurement: "kWh"
       icon: mdi:power-socket-uk
